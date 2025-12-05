@@ -1,0 +1,5 @@
+{
+  "name": "MS Quiz",
+  "description": "A multi-subject quiz application with customizable difficulty levels (1-1000) and AI-generated questions.",
+  "requestFramePermissions": []
+}

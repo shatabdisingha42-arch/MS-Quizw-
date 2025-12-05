@@ -4,18 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MS Quiz</title>
+    <script>
+      // Polyfill for process.env to prevent "process is not defined" crashes in browser environments
+      window.process = {
+        env: {
+          NODE_ENV: 'development'
+        }
+      };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="importmap">
-    {
-      "imports": {
-        "react/": "https://aistudiocdn.com/react@^19.2.1/",
-        "react": "https://aistudiocdn.com/react@^19.2.1",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0"
-      }
-    }
-    </script>
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.1/client",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/"
+  }
+}
+</script>
     <style>
       /* Reset for custom slider */
       input[type="range"] {
@@ -44,9 +54,26 @@
         border: none;
         z-index: 20;
       }
+      
+      /* Simple keyframe animations since tailwindcss-animate might not be loaded */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      .animate-slide-up {
+        animation: slideUp 0.7s ease-out forwards;
+      }
     </style>
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
     <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>

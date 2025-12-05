@@ -1,7 +1,15 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { Subject, Question } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Lazy initialization to prevent top-level crashes if process.env is accessed too early
+let aiInstance: GoogleGenAI | null = null;
+
+const getAI = () => {
+  if (!aiInstance) {
+    aiInstance = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  }
+  return aiInstance;
+};
 
 const questionSchema: Schema = {
   type: Type.OBJECT,
@@ -37,6 +45,7 @@ export const generateQuizQuestions = async (
   level: number,
   count: number
 ): Promise<Question[]> => {
+  const ai = getAI();
   const model = "gemini-2.5-flash";
   
   // Refined difficulty logic for 1-1000 scale
@@ -73,7 +82,7 @@ export const generateQuizQuestions = async (
       config: {
         responseMimeType: "application/json",
         responseSchema: responseSchema,
-        temperature: 0.7, // Slight increase for variety while maintaining structure
+        temperature: 0.7, 
       },
     });
 
